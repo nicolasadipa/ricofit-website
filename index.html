@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RICOFIT — House Power Gym</title>
+  <meta name="description" content="Ricofit House Power Gym - Entrenamiento personalizado en Algarrobo, Valparaíso. Gonzalo Ricotti Sepúlveda, Profesor de Educación Física y Magíster en Actividad Física." />
+  <link rel="icon" href="public/logo_74033.png" type="image/png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --dark: #0a0a0a;
+      --dark2: #111111;
+      --dark3: #1a1a1a;
+      --dark4: #222222;
+      --red: #cc0000;
+      --red-bright: #ff1a1a;
+      --red-glow: rgba(204, 0, 0, 0.4);
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #bbbbbb;
+      --bebas: 'Bebas Neue', sans-serif;
+      --inter: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: var(--inter);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 2rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,0.95);
+      box-shadow: 0 2px 30px rgba(204,0,0,0.15);
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 46px;
+      width: 46px;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 8px rgba(204,0,0,0.5));
+    }
+    .nav-logo span {
+      font-family: var(--bebas);
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 2px;
+      font-weight: 700 !important;
+      transition: background 0.3s !important;
+    }
+    .nav-cta:hover { background: var(--red-bright) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 5px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.98);
+      padding: 2rem;
+      z-index: 999;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--red); }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--black);
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 100%, rgba(204,0,0,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 50%, rgba(204,0,0,0.08) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(204,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(204,0,0,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 100%, black 20%, transparent 70%);
+    }
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: float-up linear infinite;
+      opacity: 0;
+    }
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 1.5rem;
+      max-width: 900px;
+    }
+    .hero-logo {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 50%;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 0 40px rgba(204,0,0,0.6));
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 30px rgba(204,0,0,0.5)); }
+      50% { filter: drop-shadow(0 0 60px rgba(204,0,0,0.9)); }
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .hero-title {
+      font-family: var(--bebas);
+      font-size: clamp(4rem, 12vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 4px;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title span { color: var(--red); }
+    .hero-subtitle {
+      font-family: var(--bebas);
+      font-size: clamp(1.2rem, 4vw, 2.2rem);
+      letter-spacing: 8px;
+      color: var(--gray);
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--gray-light);
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-tagline strong { color: var(--white); font-weight: 700; }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      padding: 16px 40px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary:hover {
+      background: var(--red-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(204,0,0,0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 15px 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-outline:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--red), transparent);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--dark2);
+      border-top: 1px solid rgba(204,0,0,0.2);
+      border-bottom: 1px solid rgba(204,0,0,0.2);
+      padding: 2rem 0;
+    }
+    .stats-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+    }
+    .stat-item {
+      background: var(--dark2);
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: var(--bebas);
+      font-size: 3rem;
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ─── SECTIONS COMMON ─── */
+    section { padding: 6rem 1.5rem; }
+    .section-container { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding: 4px 12px;
+      border: 1px solid rgba(204,0,0,0.3);
+      border-radius: 2px;
+    }
+    .section-title {
+      font-family: var(--bebas);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .section-title span { color: var(--red); }
+    .section-text {
+      color: var(--gray-light);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 640px;
+    }
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--red);
+      margin: 1.5rem 0;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── QUIÉNES SOMOS ─── */
+    #quienes {
+      background: var(--dark);
+    }
+    .quienes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .quienes-image-wrap {
+      position: relative;
+    }
+    .quienes-img {
+      width: 100%;
+      border-radius: 4px;
+      display: block;
+      filter: grayscale(20%) contrast(1.1);
+    }
+    .quienes-image-wrap::before {
+      content: '';
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      right: 15px;
+      bottom: 15px;
+      border: 2px solid var(--red);
+      border-radius: 4px;
+      z-index: 0;
+    }
+    .quienes-image-wrap > * { position: relative; z-index: 1; }
+    .quienes-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--red);
+      padding: 1.2rem 1.5rem;
+      z-index: 2;
+      text-align: center;
+    }
+    .quienes-badge strong {
+      display: block;
+      font-family: var(--bebas);
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+    .quienes-badge span {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .credentials {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .credential-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 1rem 1.2rem;
+      background: var(--dark3);
+      border-left: 3px solid var(--red);
+      border-radius: 0 4px 4px 0;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .credential-item:hover {
+      background: var(--dark4);
+      transform: translateX(5px);
+    }
+    .credential-icon {
+      color: var(--red);
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .credential-text {
+      font-size: 0.9rem;
+      color: var(--gray-light);
+      line-height: 1.4;
+    }
+    .credential-text strong { color: var(--white); display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ─── FILOSOFÍA ─── */
+    #filosofia {
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    #filosofia::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(204,0,0,0.06) 0%, transparent 70%);
+    }
+    .filosofia-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.03);
+    }
+    .filosofia-card {
+      background: var(--dark);
+      padding: 2.5rem;
+      border-top: 3px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .filosofia-card:hover {
+      border-top-color: var(--red);
+      background: var(--dark2);
+    }
+    .filosofia-card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .filosofia-card-title {
+      font-family: var(--bebas);
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+    .filosofia-card-text {
+      color: var(--gray);
+      font-size: 0.93rem;
+      line-height: 1.7;
+    }
+    .filosofia-quote {
+      margin-top: 4rem;
+      text-align: center;
+      padding: 3rem;
+      border: 1px solid rgba(204,0,0,0.2);
+      background: rgba(204,0,0,0.03);
+      border-radius: 4px;
+      position: relative;
+    }
+    .filosofia-quote::before {
+      content: '"';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--bebas);
+      font-size: 8rem;
+      color: var(--red);
+      opacity: 0.3;
+      line-height: 1;
+    }
+    .filosofia-quote p {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--gray-light);
+      font-style: italic;
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+    .filosofia-quote cite {
+      color: var(--red);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    /* ─── MOTIVACIÓN ─── */
+    #motivacion {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .motivacion-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .motivacion-header .section-title { font-size: clamp(3rem, 8vw, 6rem); }
+    .motivacion-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    .motivacion-card {
+      background: var(--dark2);
+      padding: 2rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .motivacion-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(204,0,0,0.3);
+    }
+    .motivacion-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .motivacion-card:hover::before { transform: scaleX(1); }
+    .motivacion-card-num {
+      font-family: var(--bebas);
+      font-size: 4rem;
+      color: rgba(204,0,0,0.15);
+      line-height: 1;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+    .motivacion-card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .motivacion-card-title {
+      font-family: var(--bebas);
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.7rem;
+      color: var(--white);
+    }
+    .motivacion-card-text {
+      color: var(--gray);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .motivacion-manifesto {
+      background: var(--red);
+      padding: 3rem 4rem;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+      text-align: center;
+    }
+    .motivacion-manifesto p {
+      font-family: var(--bebas);
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      letter-spacing: 2px;
+      line-height: 1.3;
+    }
+
+    /* ─── HISTORIA ─── */
+    #historia {
+      background: var(--black);
+      text-align: center;
+    }
+    .historia-header { margin-bottom: 3rem; }
+    .video-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(204,0,0,0.3);
+      border: 1px solid rgba(204,0,0,0.2);
+    }
+    .video-container video {
+      width: 100%;
+      display: block;
+      background: var(--dark2);
+    }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .video-overlay:hover { opacity: 0.8; }
+    .play-btn {
+      width: 80px;
+      height: 80px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 40px rgba(204,0,0,0.7);
+      transition: transform 0.3s;
+    }
+    .play-btn:hover { transform: scale(1.1); }
+    .historia-text {
+      margin-top: 3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--gray-light);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    /* ─── PRECIOS ─── */
+    #precios {
+      background: var(--dark);
+      position: relative;
+    }
+    .precios-header { text-align: center; margin-bottom: 3.5rem; }
+    .precios-subtitle {
+      color: var(--gray);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-top: 0.5rem;
+    }
+    .precios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .precio-card {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .precio-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(204,0,0,0.4);
+      box-shadow: 0 20px 50px rgba(204,0,0,0.15);
+    }
+    .precio-card.featured {
+      border-color: var(--red);
+      background: var(--dark3);
+      transform: scale(1.04);
+    }
+    .precio-card.featured:hover { transform: scale(1.04) translateY(-8px); }
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--red);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .precio-veces {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .precio-number {
+      font-family: var(--bebas);
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--white);
+    }
+    .precio-currency {
+      font-size: 1.2rem;
+      vertical-align: top;
+      margin-top: 10px;
+      display: inline-block;
+      color: var(--gray);
+    }
+    .precio-period {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      margin-top: 0.3rem;
+    }
+    .precio-features {
+      margin-top: 1.8rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      text-align: left;
+    }
+    .precio-features li {
+      color: var(--gray-light);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .precio-features li::before {
+      content: '✓';
+      color: var(--red);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .precio-cta {
+      display: block;
+      margin-top: 2rem;
+      padding: 12px 0;
+      background: transparent;
+      border: 1px solid rgba(204,0,0,0.4);
+      color: var(--red);
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .precio-cta:hover, .precio-card.featured .precio-cta {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+    }
+    .precios-nota {
+      text-align: center;
+      margin-top: 2.5rem;
+      color: var(--gray);
+      font-size: 0.82rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ─── DESCUENTOS ─── */
+    #descuentos {
+      background: var(--black);
+    }
+    .descuentos-header { margin-bottom: 3.5rem; }
+    .descuentos-intro {
+      color: var(--gray-light);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-top: 1rem;
+    }
+    .descuentos-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .descuento-card {
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .descuento-card:hover {
+      border-color: rgba(204,0,0,0.3);
+      background: var(--dark3);
+      transform: translateY(-4px);
+    }
+    .descuento-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .descuento-card:hover::after { transform: scaleX(1); }
+    .descuento-percent {
+      font-family: var(--bebas);
+      font-size: 3.5rem;
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+    .descuento-label {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.8rem;
+    }
+    .descuento-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .descuento-desc {
+      font-size: 0.77rem;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+    .descuento-icon {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .descuentos-disclaimer {
+      margin-top: 2rem;
+      padding: 1rem 1.5rem;
+      background: rgba(204,0,0,0.08);
+      border: 1px solid rgba(204,0,0,0.2);
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ─── CONTACTO ─── */
+    #contacto {
+      background: var(--dark);
+      text-align: center;
+    }
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+    .contacto-card {
+      background: var(--dark2);
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.3s;
+    }
+    .contacto-card:hover { border-color: rgba(204,0,0,0.3); }
+    .contacto-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .contacto-title {
+      font-family: var(--bebas);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      color: var(--white);
+    }
+    .contacto-info {
+      color: var(--gray-light);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .contacto-info a {
+      color: var(--red);
+      text-decoration: none;
+    }
+    .horario-grid {
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: 0.3rem 1.5rem;
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-top: 0.5rem;
+      text-align: left;
+    }
+    .horario-grid .dia { color: var(--gray-light); }
+    .horario-grid .cerrado { color: rgba(255,255,255,0.3); }
+    .ig-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: var(--white);
+      padding: 16px 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+    .ig-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(220, 39, 67, 0.4);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .footer-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      filter: grayscale(30%);
+    }
+    .footer-tagline {
+      font-family: var(--bebas);
+      font-size: 1.5rem;
+      letter-spacing: 4px;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--red); }
+    .footer-copy {
+      color: rgba(255,255,255,0.2);
+      font-size: 0.75rem;
+    }
+    .footer-copy span { color: var(--red); }
+
+    /* ─── WHATSAPP FLOAT ─── */
+    .wa-float {
+      position: fixed;
+      bottom: 1.8rem;
+      right: 1.8rem;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .wa-float-label {
+      background: rgba(0,0,0,0.85);
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(37,211,102,0.3);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(10px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .wa-float:hover .wa-float-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .wa-float-btn {
+      width: 58px;
+      height: 58px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0;
+    }
+    .wa-float-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(37,211,102,0.7);
+    }
+    .wa-float-btn svg { width: 30px; height: 30px; fill: #fff; }
+    .wa-float-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(37,211,102,0.4);
+      animation: wa-pulse 2s ease-out infinite;
+    }
+    @keyframes wa-pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .wa-float-btn { position: relative; overflow: visible; }
+
+    /* ─── WA button in contact section ─── */
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: var(--white);
+      padding: 16px 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+    .wa-btn:hover {
+      background: #20b858;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(37, 211, 102, 0.35);
+    }
+    .contact-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .descuentos-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .quienes-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .quienes-image-wrap { max-width: 360px; margin: 0 auto; }
+      .motivacion-cards { grid-template-columns: 1fr 1fr; }
+      .filosofia-grid { grid-template-columns: 1fr; }
+      .precios-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .precio-card.featured { transform: scale(1); }
+      .precio-card.featured:hover { transform: translateY(-8px); }
+      .descuentos-grid { grid-template-columns: repeat(2, 1fr); }
+      .contacto-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+      .stats-container { grid-template-columns: repeat(2, 1fr); }
+      .horario-grid { grid-template-columns: 1fr; gap: 0.2rem; }
+      .horario-grid span:nth-child(even) { margin-bottom: 0.4rem; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 1rem; }
+      nav { padding: 0 1rem; }
+      .nav-logo span { font-size: 1.3rem; }
+      .nav-logo img { width: 38px; height: 38px; }
+
+      /* Hero */
+      .hero-logo { width: 110px; height: 110px; }
+      .hero-eyebrow { font-size: 0.65rem; letter-spacing: 3px; }
+      .hero-subtitle { letter-spacing: 4px; }
+      .hero-tagline { font-size: 0.95rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-outline { width: 100%; max-width: 300px; text-align: center; padding: 15px 20px; }
+      .hero-scroll { display: none; }
+
+      /* Stats */
+      .stats-container { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { padding: 1.2rem 1rem; }
+      .stat-number { font-size: 2.2rem; }
+      .stat-label { font-size: 0.62rem; letter-spacing: 1px; }
+
+      /* Quiénes */
+      .quienes-image-wrap { max-width: 100%; }
+      .quienes-image-wrap::before { display: none; }
+      .quienes-badge { right: 0; bottom: -10px; padding: 0.8rem 1rem; }
+      .quienes-badge strong { font-size: 1.8rem; }
+
+      /* Filosofía */
+      .filosofia-card { padding: 1.8rem 1.5rem; }
+      .filosofia-quote { padding: 2rem 1.5rem; }
+      .filosofia-quote::before { font-size: 5rem; top: -20px; }
+
+      /* Motivación */
+      .motivacion-cards { grid-template-columns: 1fr; }
+      .motivacion-manifesto {
+        padding: 2rem 1.5rem;
+        clip-path: none;
+        border-radius: 4px;
+      }
+
+      /* Precios */
+      .precios-grid { max-width: 100%; }
+      .precio-card { padding: 2rem 1.5rem; }
+
+      /* Descuentos */
+      .descuentos-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .descuento-card { padding: 1.3rem 1rem; }
+      .descuento-percent { font-size: 2.8rem; }
+
+      /* Contacto */
+      .contact-btns { flex-direction: column; align-items: center; }
+      .ig-btn, .wa-btn { width: 100%; max-width: 320px; justify-content: center; }
+
+      /* Footer */
+      .footer-links { gap: 1rem; }
+
+      /* WA float */
+      .wa-float { bottom: 1.2rem; right: 1.2rem; }
+      .wa-float-btn { width: 52px; height: 52px; }
+    }
+    @media (max-width: 380px) {
+      .descuentos-grid { grid-template-columns: 1fr; }
+      .motivacion-cards { grid-template-columns: 1fr; }
+      .hero-title { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── WHATSAPP FLOTANTE ─── -->
+<a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="wa-float" aria-label="Escribir por WhatsApp">
+  <span class="wa-float-label">¡Escríbenos ahora!</span>
+  <div class="wa-float-btn">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </div>
+</a>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="public/logo_74033.png" alt="Ricofit Logo" />
+    <span>RICOFIT</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#quienes">Quiénes Somos</a></li>
+    <li><a href="#motivacion">Entrenamiento</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#descuentos">Descuentos</a></li>
+    <li><a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="nav-cta">💬 WhatsApp</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#quienes" onclick="closeMobile()">Quiénes Somos</a>
+  <a href="#motivacion" onclick="closeMobile()">Entrenamiento</a>
+  <a href="#historia" onclick="closeMobile()">Historia</a>
+  <a href="#precios" onclick="closeMobile()">Precios</a>
+  <a href="#descuentos" onclick="closeMobile()">Descuentos</a>
+  <a href="#contacto" onclick="closeMobile()">Únete</a>
+  <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" style="color:#25d366;">💬 WhatsApp</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <img src="public/logo_74033.png" alt="Ricofit Logo" class="hero-logo" />
+    <p class="hero-eyebrow">Algarrobo · Valparaíso · Chile</p>
+    <h1 class="hero-title">RICO<span>FIT</span></h1>
+    <p class="hero-subtitle">House Power Gym</p>
+    <p class="hero-tagline">
+      No es un gimnasio. Es un <strong>compromiso con tu versión más fuerte</strong>.<br />
+      Entrenamiento personalizado. Resultados reales. Sin excusas.
+    </p>
+    <div class="hero-buttons">
+      <a href="#precios" class="btn-primary">Conocer Planes</a>
+      <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="btn-outline">💬 Escribir por WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar">
+  <div class="stats-container">
+    <div class="stat-item reveal">
+      <span class="stat-number" data-target="5">0</span>
+      <span class="stat-label">Postgrados del Entrenador</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.1s">
+      <span class="stat-number" data-target="3">0</span>
+      <span class="stat-label">Máx. Personas por Hora</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.2s">
+      <span class="stat-number" data-target="12">0</span>
+      <span class="stat-label">Alianzas de Descuento</span>
+    </div>
+    <div class="stat-item reveal" style="transition-delay:0.3s">
+      <span class="stat-number" data-target="100">0</span>
+      <span class="stat-label">% Atención Personalizada</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── QUIÉNES SOMOS ─── -->
+<section id="quienes">
+  <div class="section-container">
+    <div class="quienes-grid">
+      <div class="quienes-image-wrap reveal-left">
+        <img src="public/quién_es_74221.png" alt="Gonzalo Ricotti" class="quienes-img" />
+        <div class="quienes-badge">
+          <strong>+5</strong>
+          <span>Años formando atletas</span>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <span class="section-tag">Quiénes Somos</span>
+        <h2 class="section-title">ENTRENA CON<br /><span>LOS MEJORES</span></h2>
+        <div class="divider"></div>
+        <p class="section-text">
+          Gonzalo Ricotti Sepúlveda fundó Ricofit con una misión clara: ofrecer entrenamiento personalizado de verdad, conociendo profundamente a cada alumno, sus metas y sus límites.
+        </p>
+        <p class="section-text" style="margin-top:1rem; font-size:0.88rem; color: var(--gray);">
+          "Recuerda siempre entrenar con los mejores, ya que tu cuerpo y tu mente te lo agradecerán."
+        </p>
+        <div class="credentials">
+          <div class="credential-item">
+            <span class="credential-icon">🎓</span>
+            <div class="credential-text">
+              <strong>Pregrado</strong>
+              Profesor de Educación Física
+            </div>
+          </div>
+          <div class="credential-item">
+            <span class="credential-icon">📚</span>
+            <div class="credential-text">
+              <strong>Magíster</strong>
+              Actividad Física para el Adulto Mayor
+            </div>
+          </div>
+          <div class="credential-item">
+            <span class="credential-icon">🏆</span>
+            <div class="credential-text">
+              <strong>Diplomado</strong>
+              Gerontología · Gestión Deportiva · Demencia · Nutrición Deportiva
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FILOSOFÍA ─── -->
+<section id="filosofia">
+  <div class="section-container">
+    <div style="text-align:center; margin-bottom:3rem;" class="reveal">
+      <span class="section-tag">Nuestra Filosofía</span>
+      <h2 class="section-title">NO SOMOS UN<br /><span>GIMNASIO TRADICIONAL</span></h2>
+    </div>
+
+    <div class="filosofia-grid">
+      <div class="filosofia-card reveal">
+        <span class="filosofia-card-icon">🎯</span>
+        <h3 class="filosofia-card-title">Cada Sesión Tiene un Propósito</h3>
+        <p class="filosofia-card-text">No improvisamos. Cada entrenamiento está planificado con objetivos claros, progresión estructurada y seguimiento profesional para que cada hora valga.</p>
+      </div>
+      <div class="filosofia-card reveal" style="transition-delay:0.1s">
+        <span class="filosofia-card-icon">🤝</span>
+        <h3 class="filosofia-card-title">Te Conocemos de Verdad</h3>
+        <p class="filosofia-card-text">Entrenamos conociendo las necesidades de cada alumno. Tu historial, tus metas y tus limitaciones son el punto de partida de cada rutina.</p>
+      </div>
+      <div class="filosofia-card reveal" style="transition-delay:0.2s">
+        <span class="filosofia-card-icon">⚡</span>
+        <h3 class="filosofia-card-title">Cupos Limitados, Calidad Total</h3>
+        <p class="filosofia-card-text">Trabajamos con cupos reducidos para garantizar atención de calidad. No eres un número: eres un atleta con un plan propio.</p>
+      </div>
+      <div class="filosofia-card reveal" style="transition-delay:0.3s">
+        <span class="filosofia-card-icon">🚫</span>
+        <h3 class="filosofia-card-title">Sin Pase Diario</h3>
+        <p class="filosofia-card-text">No ofrecemos el servicio de pase diario. Porque el compromiso no se negocia: cuando llegas, hay un plan esperándote.</p>
+      </div>
+    </div>
+
+    <div class="filosofia-quote reveal">
+      <p>Ricofit no es un gimnasio tradicional. Aquí entrenamos de manera personalizada conociendo las necesidades de cada alumn@. Cada sesión tiene un propósito, una planificación y un seguimiento profesional.</p>
+      <cite>— Gonzalo Ricotti Sepúlveda · Fundador de Ricofit</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MOTIVACIÓN ─── -->
+<section id="motivacion">
+  <div class="section-container">
+    <div class="motivacion-header reveal">
+      <span class="section-tag">Entrenamiento</span>
+      <h2 class="section-title">¿POR QUÉ <span>ENTRENAR</span><br />HOY?</h2>
+      <p style="color: var(--gray); max-width:600px; margin:1rem auto 0; font-size:0.95rem; line-height:1.7;">
+        Tu cuerpo es capaz de más de lo que crees. Solo necesita la dirección correcta, el entorno adecuado y a alguien que crea en tu potencial antes que tú.
+      </p>
+    </div>
+
+    <div class="motivacion-cards">
+      <div class="motivacion-card reveal">
+        <span class="motivacion-card-num">01</span>
+        <span class="motivacion-card-icon">🧠</span>
+        <h3 class="motivacion-card-title">Libera Tu Mente</h3>
+        <p class="motivacion-card-text">Cada sesión es una descarga de cortisol y una explosión de endorfinas. El gym no es solo físico: es salud mental, claridad y foco.</p>
+      </div>
+      <div class="motivacion-card reveal" style="transition-delay:0.1s">
+        <span class="motivacion-card-num">02</span>
+        <span class="motivacion-card-icon">💪</span>
+        <h3 class="motivacion-card-title">Fuerza Que Dura</h3>
+        <p class="motivacion-card-text">No entrenamos para el verano. Entrenamos para la vida. La fuerza que construyes aquí te protege, te libera y te hace imparable.</p>
+      </div>
+      <div class="motivacion-card reveal" style="transition-delay:0.2s">
+        <span class="motivacion-card-num">03</span>
+        <span class="motivacion-card-icon">🔥</span>
+        <h3 class="motivacion-card-title">Disciplina = Libertad</h3>
+        <p class="motivacion-card-text">Cada vez que eliges entrenar cuando no tienes ganas, te conviertes en alguien más fuerte. La disciplina no restringe, te libera.</p>
+      </div>
+      <div class="motivacion-card reveal" style="transition-delay:0.1s">
+        <span class="motivacion-card-num">04</span>
+        <span class="motivacion-card-icon">📈</span>
+        <h3 class="motivacion-card-title">Progresión Medible</h3>
+        <p class="motivacion-card-text">En Ricofit no adivinas. Cada sesión está planificada para que tu progreso sea visible, real y sostenible en el tiempo.</p>
+      </div>
+      <div class="motivacion-card reveal" style="transition-delay:0.2s">
+        <span class="motivacion-card-num">05</span>
+        <span class="motivacion-card-icon">🤜</span>
+        <h3 class="motivacion-card-title">Comunidad que Empuja</h3>
+        <p class="motivacion-card-text">No entrenas solo. La energía del grupo pequeño te empuja en los días difíciles y celebra tus logros cuando nadie más los nota.</p>
+      </div>
+      <div class="motivacion-card reveal" style="transition-delay:0.3s">
+        <span class="motivacion-card-num">06</span>
+        <span class="motivacion-card-icon">🧬</span>
+        <h3 class="motivacion-card-title">Inversión en Tu Salud</h3>
+        <p class="motivacion-card-text">Cada peso que inviertes en tu entrenamiento te ahorra cientos en médicos, medicamentos y energía perdida. El cuerpo sano es el mejor capital.</p>
+      </div>
+    </div>
+
+    <div class="motivacion-manifesto reveal">
+      <p>EL MEJOR MOMENTO PARA EMPEZAR<br />ERA AYER. EL SEGUNDO MEJOR<br />ES AHORA. <span style="color:rgba(0,0,0,0.5)">—</span> RICOFIT</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HISTORIA ─── -->
+<section id="historia">
+  <div class="section-container">
+    <div class="historia-header reveal">
+      <span class="section-tag">Nuestra Historia</span>
+      <h2 class="section-title">UNA COMUNIDAD<br />QUE <span>LUCHA Y CRECE</span></h2>
+      <p style="color: var(--gray); max-width:600px; margin:1rem auto 0; font-size:0.95rem;">
+        Ricofit no nació de un negocio. Nació de una pasión por el movimiento, la salud y la comunidad. Cada aniversario es la prueba de que esto va más allá de las paredes de un gym.
+      </p>
+    </div>
+
+    <div class="video-container reveal">
+      <video id="historiaVideo" controls preload="metadata" poster="public/quién_es_74236.png">
+        <source src="public/historia.mp4" type="video/mp4" />
+        Tu navegador no soporta video HTML5.
+      </video>
+      <div class="video-overlay" id="videoOverlay">
+        <div class="play-btn">▶</div>
+      </div>
+    </div>
+
+    <div class="historia-text reveal">
+      <p>Desde sus inicios en Algarrobo, Ricofit ha construido algo más que un espacio de entrenamiento: una <strong style="color:var(--white)">comunidad unida</strong> que crece junta, se desafía mutuamente y celebra cada logro como propio. Esto no es solo un gimnasio. Es la historia de personas que decidieron cambiar su vida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRECIOS ─── -->
+<section id="precios">
+  <div class="section-container">
+    <div class="precios-header reveal">
+      <span class="section-tag">Planes de Entrenamiento</span>
+      <h2 class="section-title">INVIERTE EN TU<br /><span>VERSIÓN MÁS FUERTE</span></h2>
+      <p class="precios-subtitle">Clases personalizadas · Máximo 3 personas por hora</p>
+    </div>
+
+    <div class="precios-grid">
+      <div class="precio-card reveal">
+        <p class="precio-veces">2 Veces / Semana</p>
+        <div>
+          <span class="precio-currency">$</span>
+          <span class="precio-number">80.000</span>
+          <span class="precio-period">pesos / mes</span>
+        </div>
+        <ul class="precio-features">
+          <li>2 sesiones semanales</li>
+          <li>Planificación personalizada</li>
+          <li>Seguimiento profesional</li>
+          <li>Máx. 3 personas/hora</li>
+          <li>Asesoría nutricional disponible</li>
+        </ul>
+        <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="precio-cta">Empezar Ahora</a>
+      </div>
+
+      <div class="precio-card featured reveal" style="transition-delay:0.1s">
+        <span class="featured-badge">⭐ Más Popular</span>
+        <p class="precio-veces">3 Veces / Semana</p>
+        <div>
+          <span class="precio-currency">$</span>
+          <span class="precio-number">115.000</span>
+          <span class="precio-period">pesos / mes</span>
+        </div>
+        <ul class="precio-features">
+          <li>3 sesiones semanales</li>
+          <li>Planificación personalizada</li>
+          <li>Seguimiento profesional</li>
+          <li>Máx. 3 personas/hora</li>
+          <li>Asesoría nutricional disponible</li>
+          <li>Progresión óptima garantizada</li>
+        </ul>
+        <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="precio-cta">Empezar Ahora</a>
+      </div>
+
+      <div class="precio-card reveal" style="transition-delay:0.2s">
+        <p class="precio-veces">4 Veces / Semana</p>
+        <div>
+          <span class="precio-currency">$</span>
+          <span class="precio-number">145.000</span>
+          <span class="precio-period">pesos / mes</span>
+        </div>
+        <ul class="precio-features">
+          <li>4 sesiones semanales</li>
+          <li>Planificación personalizada</li>
+          <li>Seguimiento profesional</li>
+          <li>Máx. 3 personas/hora</li>
+          <li>Asesoría nutricional disponible</li>
+          <li>Máxima progresión</li>
+        </ul>
+        <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="precio-cta">Empezar Ahora</a>
+      </div>
+    </div>
+
+    <p class="precios-nota">
+      💡 Todos los planes incluyen atención personalizada con Gonzalo Ricotti Sepúlveda, Prof. de Ed. Física y Mg. en Actividad Física. Consulta nutricional disponible con @josefigueroa.nutri (valor a convenir directamente con él).
+    </p>
+  </div>
+</section>
+
+<!-- ─── DESCUENTOS ─── -->
+<section id="descuentos">
+  <div class="section-container">
+    <div class="descuentos-header reveal">
+      <span class="section-tag">Beneficios Exclusivos</span>
+      <h2 class="section-title">SER RICOFIT<br /><span>TIENE VENTAJAS</span></h2>
+      <p class="descuentos-intro">Como miembro de Ricofit accedes a descuentos exclusivos en empresas locales aliadas. Porque cuidar tu salud va más allá del entrenamiento.</p>
+    </div>
+
+    <div class="descuentos-grid">
+      <div class="descuento-card reveal">
+        <span class="descuento-icon">🥗</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Jose Figueroa · Nutricionista</p>
+        <p class="descuento-desc">En evaluaciones y asesorías nutricionales</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.05s">
+        <span class="descuento-icon">🦷</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">San Vicente · Clínica Dental</p>
+        <p class="descuento-desc">Excepto ortodoncia e implantes</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.1s">
+        <span class="descuento-icon">🍛</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Namish · Indian Street Food</p>
+        <p class="descuento-desc">Por compras sobre $25.000 pesos</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.15s">
+        <span class="descuento-icon">🔧</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">AutoStar</p>
+        <p class="descuento-desc">En servicios y productos automotrices</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.2s">
+        <span class="descuento-icon">🪟</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Fönster · Soluciones PVC</p>
+        <p class="descuento-desc">Ventanas PVC, vidrios, mamparas, showerdoor, espejos</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.25s">
+        <span class="descuento-icon">💆</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Jay Estética</p>
+        <p class="descuento-desc">En tratamientos faciales y depilación</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.3s">
+        <span class="descuento-icon">🦴</span>
+        <span class="descuento-percent">★</span>
+        <span class="descuento-label">Precio Especial</span>
+        <p class="descuento-name">Osteomed · Kinesiología</p>
+        <p class="descuento-desc">Rehabilitación traumatológica · Fonasa $10.000 / Isapre $14.000</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.35s">
+        <span class="descuento-icon">👗</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Studio Chantine</p>
+        <p class="descuento-desc">10% en toda la tienda</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.4s">
+        <span class="descuento-icon">💅</span>
+        <span class="descuento-percent">15%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Estudio Malibú · Beauty & Nails</p>
+        <p class="descuento-desc">Total boleta · Martes, Jueves y Viernes</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.45s">
+        <span class="descuento-icon">🛁</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Spa Pro Fisio</p>
+        <p class="descuento-desc">En todos los tratamientos · Adultos mayores 15%</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.5s">
+        <span class="descuento-icon">🍽️</span>
+        <span class="descuento-percent">10%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">La Terraza by Octopus</p>
+        <p class="descuento-desc">Todos los días · Efectivo o Transferencia</p>
+      </div>
+      <div class="descuento-card reveal" style="transition-delay:0.55s">
+        <span class="descuento-icon">☕</span>
+        <span class="descuento-percent">15%</span>
+        <span class="descuento-label">Descuento</span>
+        <p class="descuento-name">Studio Café</p>
+        <p class="descuento-desc">15% en toda la cafetería</p>
+      </div>
+    </div>
+
+    <div class="descuentos-disclaimer reveal">
+      <span>ℹ️</span>
+      <span>Descuentos exclusivos para miembros activos de Ricofit. Consulta condiciones de cada beneficio directamente con el establecimiento.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACTO ─── -->
+<section id="contacto">
+  <div class="section-container">
+    <div class="reveal">
+      <span class="section-tag">Contáctanos</span>
+      <h2 class="section-title">DA EL PRIMER<br /><span>PASO HOY</span></h2>
+      <p style="color:var(--gray); max-width:500px; margin:1rem auto 0;">
+        Estamos en Algarrobo esperándote. Escríbenos, pregunta, visítanos. El primer entrenamiento es el más importante.
+      </p>
+    </div>
+
+    <div class="contacto-grid">
+      <div class="contacto-card reveal">
+        <span class="contacto-icon">📍</span>
+        <h3 class="contacto-title">Ubicación</h3>
+        <p class="contacto-info">
+          Av. Sta. Teresa de Los Andes 1305<br />
+          Algarrobo, Valparaíso<br />
+          Chile · 2710062
+        </p>
+      </div>
+      <div class="contacto-card reveal" style="transition-delay:0.1s">
+        <span class="contacto-icon">🕐</span>
+        <h3 class="contacto-title">Horario</h3>
+        <div class="horario-grid">
+          <span class="dia">Lunes — Viernes</span>
+          <span>9:00 a.m. – 10:00 p.m.</span>
+          <span class="dia">Sábado</span>
+          <span class="cerrado">Cerrado</span>
+          <span class="dia">Domingo</span>
+          <span class="cerrado">Cerrado</span>
+        </div>
+      </div>
+      <div class="contacto-card reveal" style="transition-delay:0.2s">
+        <span class="contacto-icon">📱</span>
+        <h3 class="contacto-title">Contáctanos</h3>
+        <p class="contacto-info">
+          <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" style="color:#25d366;">+56 9 9580 7205</a><br />
+          WhatsApp disponible<br />
+          <br />
+          <a href="https://www.instagram.com/ricofit_cl" target="_blank" rel="noopener">@ricofit_cl</a> · Instagram
+        </p>
+      </div>
+    </div>
+
+    <div class="contact-btns reveal">
+      <a href="https://wa.me/56995807205?text=Hola%20Ricofit%2C%20quiero%20información%20sobre%20los%20planes%20de%20entrenamiento%20🏋️" target="_blank" rel="noopener" class="wa-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escríbenos por WhatsApp
+      </a>
+      <a href="https://www.instagram.com/ricofit_cl" target="_blank" rel="noopener" class="ig-btn">
+        <span>📸</span>
+        @ricofit_cl en Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <img src="public/logo_74033.png" alt="Ricofit Logo" class="footer-logo" />
+  <p class="footer-tagline">HOUSE POWER GYM</p>
+  <ul class="footer-links">
+    <li><a href="#quienes">Quiénes Somos</a></li>
+    <li><a href="#filosofia">Filosofía</a></li>
+    <li><a href="#motivacion">Entrenamiento</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#descuentos">Descuentos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <p style="margin-bottom:1rem;">
+    <a href="https://wa.me/56995807205" target="_blank" rel="noopener" style="color:#25d366; text-decoration:none; font-size:0.82rem; letter-spacing:1px;">💬 +56 9 9580 7205</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.instagram.com/ricofit_cl" target="_blank" rel="noopener" style="color:var(--gray); text-decoration:none; font-size:0.82rem;">📸 @ricofit_cl</a>
+  </p>
+  <p class="footer-copy">
+    © 2026 <span>Ricofit</span> · House Power Gym · Algarrobo, Valparaíso · Todos los derechos reservados.
+  </p>
+</footer>
+
+<script>
+  // ─── NAVBAR SCROLL ───
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // ─── HAMBURGER ───
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // ─── PARTICLES ───
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (4 + Math.random() * 8) + 's';
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 3) + 'px';
+    particlesContainer.appendChild(p);
+  }
+
+  // ─── REVEAL ON SCROLL ───
+  const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ─── COUNTER ANIMATION ───
+  function animateCounter(el, target, duration = 1500) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { el.textContent = target + (target === 100 ? '%' : '+'); clearInterval(timer); }
+      else { el.textContent = Math.floor(start) + (target === 100 ? '%' : '+'); }
+    }, 16);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('[data-target]');
+        nums.forEach(num => {
+          const target = parseInt(num.dataset.target);
+          animateCounter(num, target);
+        });
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) statObserver.observe(statsBar);
+
+  // ─── VIDEO OVERLAY ───
+  const video = document.getElementById('historiaVideo');
+  const overlay = document.getElementById('videoOverlay');
+  if (overlay && video) {
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      video.play();
+    });
+    video.addEventListener('pause', () => {
+      overlay.style.display = 'flex';
+    });
+  }
+</script>
+</body>
+</html>
